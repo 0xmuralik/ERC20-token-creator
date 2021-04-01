@@ -7,42 +7,42 @@ contract Token{
     uint256 public totalSupply=1000;
 
     mapping(address=>uint256) public balanceOf;
-    mapping(address=>mapping(address=>uint256)) public allownace;
+    mapping(address=>mapping(address=>uint256)) public allowance;
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
     
-    constructor(){
+    constructor() public {
         balanceOf[msg.sender]=totalSupply;
     }
 
     function transfer(address _from,address _to, uint256 _value) public returns(bool success){
-        require(balanceOf[from]>=_value);
-        balanceOf[from]-=_value;
-        balanceOf[to]+=_value;
+        require(balanceOf[_from]>=_value);
+        balanceOf[_from]-=_value;
+        balanceOf[_to]+=_value;
 
-        event Transfer(_from,_to,_value);
+        emit Transfer(_from,_to,_value);
 
         return true;
     }
 
     function approve(address _spender, uint256 _value) public returns (bool success){
-        allownace[msg.sender][_spender] = _value;
+        allowance[msg.sender][_spender] = _value;
 
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
 
         return true;
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success){
         require(balanceOf[_from]>=_value);
-        require(allowance[_from][_to]>=_value);
+        require(allowance[_from][msg.sender]>=_value);
 
-        allownace[_from][_to]-=_value;
+        allowance[_from][msg.sender]-=_value;
         balanceOf[_from]-=_value;
-        balanceOf[_to]+=value;
+        balanceOf[_to]+=_value;
 
-        Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
 
         return true;
     }
