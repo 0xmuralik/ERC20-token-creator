@@ -1,7 +1,11 @@
 var Token = artifacts.require("./Token.sol");
 
 contract('Token', function(accounts){
-    
+    var _tokenName="I Don't Count";
+    var _tokenSymbol="IDC";
+    var _decimals=8;
+    var _tokenSupply=10000;
+
     before(async () => {
         this.token = await Token.deployed()
     })
@@ -20,16 +24,16 @@ contract('Token', function(accounts){
         var decimals=await token.decimals();
         var totalSupply=await token.totalSupply();
 
-        assert.equal(tokenName,"I Don't Count","token name");
-        assert.equal(tokenSymbol,"IDC","token symbol");
-        assert.equal(decimals.toNumber(),8,"decimals");
-        assert.equal(totalSupply.toNumber(),1000,"total supply");
+        assert.equal(tokenName,_tokenName,"token name");
+        assert.equal(tokenSymbol,_tokenSymbol,"token symbol");
+        assert.equal(decimals.toNumber(),_decimals,"decimals");
+        assert.equal(totalSupply.toNumber(),_tokenSupply,"total supply");
     })
 
     it("allocates intial supply upon deployement",async()=>{
         var balanceOwner= await token.balanceOf(accounts[0]);
         
-        assert.equal(balanceOwner.toNumber(),1000);
+        assert.equal(balanceOwner.toNumber(),_tokenSupply);
     })
 
     it("transfers token ownership",async()=>{
@@ -58,7 +62,7 @@ contract('Token', function(accounts){
         var balanceOwner= await token.balanceOf(accounts[0]);
         var balanceRecepient = await this.token.balanceOf(accounts[1]);
 
-        assert.equal(balanceOwner.toNumber(),998,"Deducted from owner");
+        assert.equal(balanceOwner.toNumber(),_tokenSupply-2,"Deducted from owner");
         assert.equal(balanceRecepient.toNumber(),2,"Added to recepient");
     })
 

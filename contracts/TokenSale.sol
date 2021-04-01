@@ -9,11 +9,14 @@ contract TokenSale{
 
     event Sell(address _buyer,uint256 _tokens);
 
-    constructor(Token _tokenContract, uint256 _tokenPrice, uint _tokensForSale) public {
+    constructor(Token _tokenContract, uint256 _tokenPrice) public {
         admin = msg.sender;
         tokenContract=_tokenContract;
         tokenPrice=_tokenPrice;
+    }
 
+    function addTokensToSale(uint _tokensForSale) public {
+        require(msg.sender==admin);
         require(tokenContract.balanceOf(admin)>=_tokensForSale);
         require(tokenContract.transfer(admin, address(this), _tokensForSale));
     }

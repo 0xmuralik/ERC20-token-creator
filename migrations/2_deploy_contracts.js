@@ -10,10 +10,9 @@ module.exports = function(deployer){
 
     deployer.deploy(Token,tokenName,tokenSymbol,decimals,tokenSupply).then(function(){
 
-        var tokenPrice=100000000;
-        var tokensForSale=5000;
-        
-        return deployer.deploy(TokenSale,Token.address,tokenPrice,tokensForSale);
+        var tokenPrice=1000000000000000;
+
+        return deployer.deploy(TokenSale,Token.address,tokenPrice);
     });
     
 }
