@@ -49,9 +49,18 @@ App = {
     App.contracts.TokenSale.setProvider(App.web3Provider);
     App.instances.tokenSale = await App.contracts.TokenSale.deployed();
     console.log("TokenSale contract address: ",App.instances.tokenSale.address);
+    App.listenForEvents()
 
 
   },
+
+  listenForEvents: async () => {
+    App.instances.tokenSale.events.Sell()
+    .on('data',function(event){
+      console.log(event);
+    });
+  },
+
   loadAccount: async () => {
     // Set the current blockchain account
     // App.account=window.ethereum.currentProvider.selectedAddress;
@@ -110,6 +119,7 @@ App = {
     var price = await App.instances.tokenSale.tokenPrice();
 
     var result = await App.instances.tokenSale.buyTokens(numberOfTokens,{from: App.account,value: numberOfTokens*price,gas:500000});
+
     $('form').trigger('reset');   
   
   }
