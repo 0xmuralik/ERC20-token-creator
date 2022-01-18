@@ -16,7 +16,8 @@ to participate in ICO sales by buying the tokens.
 
 ## Progress so far
 Started implementation on 1st April 2021.
+
 Implemented features:
-● ERC20 standard token contract
-● Token creation contract
-● ICO sale contract and portal
+- ERC20 standard token contract
+- Token creation contract
+- ICO sale contract and portal
